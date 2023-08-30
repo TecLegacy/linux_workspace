@@ -1,1 +1,14 @@
+
+**/node_modules/
 redis/rbay/{.DS_Store,node_modules/,build/,.svelte-kit/,package/,.env,.env.*,!.env.example,dist/}
+
+# Ignore files in typescript/map/.parcel-cache/
+typescript/map/.parcel-cache/*
+
+# Ignore the entire typescript/map/dist/ directory
+typescript/map/dist/
+
+# Ignore other specific files
+typescript/basics/pnpm-lock.yaml
+typescript/map/pnpm-lock.yaml
+
