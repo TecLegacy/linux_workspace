@@ -1,8 +1,14 @@
-import { faker } from '@faker-js/faker';
-// or, if desiring a different locale
-// import { fakerDE as faker } from '@faker-js/faker';
+import 'dotenv/config';
+import { User } from './User';
+import { Company } from './Company';
 
-const randomName = faker.person.fullName(); // Rowan Nikolaus
-const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
+const user = new User('male');
+console.log(user.name);
+console.log(user.location);
 
-console.log(randomName, randomEmail);
+const company = new Company();
+console.log(company.companyName);
+console.log(company.catchPhrase);
+console.log(company.location);
+
+console.log(process.env.GOOGLE_API_MAPS_KEY);
