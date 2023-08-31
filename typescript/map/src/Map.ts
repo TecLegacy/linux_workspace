@@ -1,3 +1,5 @@
+import { Company } from './Company';
+import { User } from './User';
 interface Coordinates {
   lat: number;
   lng: number;
@@ -10,48 +12,34 @@ export class CustomMap {
     this.coords = coords;
   }
 
-  public async location(): Promise<void> {
+  private async location(): Promise<google.maps.Map> {
     const { Map } = (await google.maps.importLibrary(
       'maps'
     )) as google.maps.MapsLibrary;
-
-    const map: google.maps.Map = new Map(
-      document.getElementById('map') as HTMLElement,
-      {
-        center: this.coords,
-        zoom: 8,
-      }
-    );
+    return new Map(document.getElementById('map') as HTMLElement, {
+      center: this.coords,
+      zoom: 1,
+    });
   }
 
   public async setMarker({
     currentPlace,
-    lat,
-    lng,
+    user,
   }: {
     currentPlace: string;
-    lat: number;
-    lng: number;
+    user: User | Company;
   }): Promise<void> {
     const { Marker } = (await google.maps.importLibrary(
       'marker'
     )) as google.maps.MarkerLibrary;
 
-    const { Map } = (await google.maps.importLibrary(
-      'maps'
-    )) as google.maps.MapsLibrary;
-
-    const map = new Map(document.getElementById('map') as HTMLElement, {
-      // Feed Delhi marker coordinates here
-      center: this.coords,
-      zoom: 8,
-    });
+    const map = await this.location();
     const mapMaker = new Marker({
-      map,
+      map: map,
       title: currentPlace,
       position: {
-        lat,
-        lng,
+        lat: user.location.lat,
+        lng: user.location.lng,
       },
     });
   }
