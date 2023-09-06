@@ -22,12 +22,12 @@ export class CustomMap {
     });
   }
 
-  public async setMarker({
+  public async setUserMarker({
     currentPlace,
     user,
   }: {
     currentPlace: string;
-    user: User | Company;
+    user: Coordinates;
   }): Promise<void> {
     const { Marker } = (await google.maps.importLibrary(
       'marker'

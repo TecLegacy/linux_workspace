@@ -8,5 +8,6 @@ const user = new User('female');
 const company = new Company();
 const googleMaps = new CustomMap({ lat: 29.7041, lng: 77.1025 });
 
-googleMaps.setMarker({ currentPlace: 'Delhi', user });
-googleMaps.setMarker({ currentPlace: 'Delhi', user: company });
+googleMaps.setUserMarker({ currentPlace: 'Delhi', user: user });
+// googleMaps.setCompanyMarker({ currentPlace: 'wow', user: company });
+// googleMaps.setMarker({ currentPlace: 'wsow', user: company });
