@@ -5,6 +5,7 @@ redis/rbay/{.DS_Store,node_modules/,build/,.svelte-kit/,package/,.env,.env.*,!.e
 
 # Ignore files in typescript/map/.parcel-cache/
 typescript/map/.parcel-cache/*
+typescript/map/dumbps/*
 
 # Ignore the entire typescript/map/dist/ directory
 typescript/map/dist/
