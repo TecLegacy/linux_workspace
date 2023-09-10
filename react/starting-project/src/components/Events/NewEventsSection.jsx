@@ -6,6 +6,7 @@ import EventItem from './EventItem.jsx';
 
 import axios, { AxiosError } from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { fetchEvents } from '../../utils/http.js';
 
 // GET /events
 const fetchEventsData = async () => {
@@ -24,7 +25,7 @@ const fetchEventsData = async () => {
 export default function NewEventsSection() {
   const { data, error, isError, isPending } = useQuery({
     queryKey: ['events'],
-    queryFn: fetchEventsData,
+    queryFn: fetchEvents,
     staleTime: 1000 * 60 * 1, // 1 minutes
     // gcTime: 1000 * 60 * 5, // 5 minutes
     // cacheTime: 1000 * 60 * 5, // 5 minutes
