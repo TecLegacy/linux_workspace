@@ -1,3 +1,27 @@
+import axios, { AxiosError } from 'axios';
+
+// GET /events
+export const fetchEventsData = async ({ searchTerm, signal }) => {
+  let url = 'http://localhost:3000/events';
+
+  if (searchTerm) {
+    url += `?search=${searchTerm}`;
+  }
+
+  try {
+    const response = await axios.get(url, { signal });
+    return response.data;
+  } catch (err) {
+    const error = new Error('An error occurred while fetching the events');
+
+    if (err instanceof AxiosError) {
+      error.axios = 'Error Caused by axios';
+    }
+
+    throw error;
+  }
+};
+
 export async function fetchEvents() {
   const response = await fetch('http://localhost:3000/events');
 

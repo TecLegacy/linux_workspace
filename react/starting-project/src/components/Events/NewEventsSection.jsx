@@ -4,33 +4,18 @@ import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 import EventItem from './EventItem.jsx';
 
-import axios, { AxiosError } from 'axios';
+import { fetchEventsData } from '../../utils/http.js';
 import { useQuery } from '@tanstack/react-query';
-import { fetchEvents } from '../../utils/http.js';
-
-// GET /events
-const fetchEventsData = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/events');
-    return response.data;
-  } catch (err) {
-    const error = new Error('An error occurred while fetching the events');
-    if (err instanceof AxiosError) {
-      error.axios = 'Error Caused by axios';
-    }
-    throw error;
-  }
-};
 
 export default function NewEventsSection() {
   const { data, error, isError, isPending } = useQuery({
     queryKey: ['events'],
-    queryFn: fetchEvents,
+    queryFn: fetchEventsData,
     staleTime: 1000 * 60 * 1, // 1 minutes
+    gcTime: 9000,
+    // queryFn: fetchEvents,
     // gcTime: 1000 * 60 * 5, // 5 minutes
     // cacheTime: 1000 * 60 * 5, // 5 minutes
-    // cacheTime: 9000, // 5 minutes
-    gcTime: 9000,
   });
 
   /**DUMB 1 here*/
@@ -45,7 +30,7 @@ export default function NewEventsSection() {
     content = (
       <ErrorBlock
         title='An error occurred'
-        message={error.axios || 'Failed to Fetch Events'}
+        message={error?.axios || 'Failed to Fetch Events'}
       />
     );
   }
@@ -74,7 +59,7 @@ export default function NewEventsSection() {
 }
 
 /** DUMB 1 paste
- * 
+ * Traditional way of fetching data with useEffect and useState
 const [data, setData] = useState();
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
