@@ -12,13 +12,13 @@ export const fetchEventsData = async ({ searchTerm, signal }) => {
     const response = await axios.get(url, { signal });
     return response.data;
   } catch (err) {
-    const error = new Error('An error occurred while fetching the events');
-
     if (err instanceof AxiosError) {
-      error.axios = 'Error Caused by axios';
+      const error = new Error('An error occurred while fetching the events');
+      error.axios = err;
       throw error;
     }
 
+    //generic message
     throw new Error('Something went wrong while fetching');
   }
 };
@@ -32,11 +32,14 @@ export const createNewEvent = async ({ event }) => {
     });
     return response.data;
   } catch (err) {
+    // console.log(err);
     if (err instanceof AxiosError) {
-      const error = new Error('Failed to create events');
-      error.axios = 'Failed to send data Via axios';
+      const error = new Error('Please check for your inputs.');
+      error.axios = err;
       throw error;
     }
+
+    //generic message
     throw new Error('Something went Wrong while sending!');
   }
 };

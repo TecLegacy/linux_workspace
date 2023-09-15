@@ -29,8 +29,8 @@ export default function NewEventsSection() {
   if (isError) {
     content = (
       <ErrorBlock
-        title='An error occurred'
-        message={error?.axios || 'Failed to Fetch Events'}
+        title={'No Events Found' || error.axios?.name}
+        message={'Failed to Fetch Events' || error.axios?.message}
       />
     );
   }

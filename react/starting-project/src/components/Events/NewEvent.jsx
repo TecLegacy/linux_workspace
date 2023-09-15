@@ -32,12 +32,8 @@ export default function NewEvent() {
       </EventForm>
       {isError ? (
         <ErrorBlock
-          title='New Event Error'
-          message={
-            error.axios ||
-            error.message?.axios ||
-            'Failed to Create new event. Please check for your inputs.'
-          }
+          title={'Failed to Create new event.' || error.axios?.name}
+          message={error.message || error.axios?.message}
         />
       ) : null}
     </Modal>
