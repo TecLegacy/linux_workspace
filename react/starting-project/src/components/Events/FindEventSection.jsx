@@ -11,8 +11,9 @@ export default function FindEventSection() {
   const searchElement = useRef();
   const [searchTerm, setSearchTerm] = useState(null);
 
-  const { data, error, isError, isPending } = useQuery({
+  const { data, error, isError, isLoading } = useQuery({
     staleTime: 1000 * 60 * 3, // 3 minutes
+    enabled: searchTerm !== null,
 
     //Dynamic query keys are useful when you want to refetch data based on a value that changes over time.
     queryKey: ['events', { search: searchTerm }],
@@ -26,7 +27,7 @@ export default function FindEventSection() {
 
   let content = <p>Please enter a search term and to find events.</p>;
 
-  if (isPending) return <LoadingIndicator />;
+  if (isLoading) return <LoadingIndicator />;
 
   if (isError) {
     return (

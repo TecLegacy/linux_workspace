@@ -16,9 +16,28 @@ export const fetchEventsData = async ({ searchTerm, signal }) => {
 
     if (err instanceof AxiosError) {
       error.axios = 'Error Caused by axios';
+      throw error;
     }
 
-    throw error;
+    throw new Error('Something went wrong while fetching');
+  }
+};
+
+// POSTS /events - Create new Events
+export const createNewEvent = async ({ event }) => {
+  let url = 'http://localhost:3000/events';
+  try {
+    const response = await axios.post(url, {
+      event,
+    });
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const error = new Error('Failed to create events');
+      error.axios = 'Failed to send data Via axios';
+      throw error;
+    }
+    throw new Error('Something went Wrong while sending!');
   }
 };
 
