@@ -1,16 +1,15 @@
 {
   "name": "graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "graphql server with apollo server",
   "main": "index.js",
   "keywords": [],
-  "author": "",
+  "author": "teclegacy",
   "license": "ISC",
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "dev": "pnpm run compile && node --watch ./dist/index.js",
-    "something": "echo 'something'"
+    "dev": "pnpm run compile && node --watch ./dist/index.js"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
