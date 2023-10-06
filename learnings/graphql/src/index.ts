@@ -1,15 +1,15 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
-import db from './db.js';
+import db from './db';
 
-import { typeDefs } from './schema.js';
+import { typeDefs } from './schema';
 
 // Resolver function
 const resolvers = {
   Query: {
     // Expose Games
-    singleGame(_, { id }) {
+    game(_: null, { id }: { id: string }) {
       return db.games.find(game => game.id === id);
     },
 
@@ -21,7 +21,7 @@ const resolvers = {
     reviews() {
       return db.reviews;
     },
-    singleReview(_, { id }) {
+    review(_: null, { id }: { id: string }) {
       return db.reviews.find(review => review.id === id);
     },
 
@@ -29,7 +29,7 @@ const resolvers = {
     authors() {
       return db.authors;
     },
-    singleAuthor(_, { id }) {
+    author(_: null, { id }: { id: string }) {
       return db.authors.find(author => author.id === id);
     },
   },

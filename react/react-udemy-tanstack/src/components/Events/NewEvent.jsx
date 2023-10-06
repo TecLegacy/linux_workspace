@@ -15,20 +15,27 @@ export default function NewEvent() {
   });
 
   function handleSubmit(formData) {
+    console.log(formData);
     mutate({ event: formData });
   }
 
   return (
     <Modal onClose={() => navigate('../')}>
       <EventForm onSubmit={handleSubmit}>
-        <>
-          <Link to='../' className='button-text'>
-            Cancel
-          </Link>
-          <button type='submit' className='button'>
-            Create
+        {isPending ? (
+          <button disabled={true} className='button'>
+            Submitting...
           </button>
-        </>
+        ) : (
+          <>
+            <Link to='../' className='button-text'>
+              Cancel
+            </Link>
+            <button type='submit' className='button'>
+              Create
+            </button>
+          </>
+        )}
       </EventForm>
       {isError ? (
         <ErrorBlock

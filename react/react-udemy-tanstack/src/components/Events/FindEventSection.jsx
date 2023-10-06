@@ -9,11 +9,11 @@ import EventItem from './EventItem.jsx';
 
 export default function FindEventSection() {
   const searchElement = useRef();
-  const [searchTerm, setSearchTerm] = useState(null);
+  const [searchTerm, setSearchTerm] = useState();
 
   const { data, error, isError, isLoading } = useQuery({
     staleTime: 1000 * 60 * 3, // 3 minutes
-    enabled: searchTerm !== null,
+    enabled: searchTerm !== undefined,
 
     //Dynamic query keys are useful when you want to refetch data based on a value that changes over time.
     queryKey: ['events', { search: searchTerm }],
@@ -38,7 +38,7 @@ export default function FindEventSection() {
     );
   }
   if (data) {
-    console.log(data);
+    // console.log(data);
     content = (
       <ul className='events-list'>
         {data.events.map(event => (

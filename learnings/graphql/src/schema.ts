@@ -3,16 +3,20 @@ export const typeDefs = `#graphql
     id: ID!
     title: String!
     platform:[String!]!
+    reviews:[Review!]
   }
   type Author{
     id: ID!
     name: String!
     verified:Boolean!
+    reviews:[Review!]
   }
   type Review{
     id: ID!
     rating: Int!
     content:String!
+    author:Author!
+    game:Game!
   }
 
   # Entry Points 
@@ -21,8 +25,8 @@ export const typeDefs = `#graphql
     reviews:[Review]
     authors:[Author]
 
-    singleGame(id:ID!):Game
-    singleReview(id:ID!):Review
-    singleAuthor(id:ID!):Author
+    game(id:ID!):Game
+    review(id:ID!):Review
+    author(id:ID!):Author
   }
 `;
