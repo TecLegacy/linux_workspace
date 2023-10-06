@@ -76,6 +76,25 @@ export const selectableImages = async ({ signal }) => {
   }
 };
 
+//GET /events/:id
+export const singleArticle = async ({ signal, id }) => {
+  const url = `http://localhost:3000/events/${id}`;
+
+  try {
+    const response = await axios.get(url, { signal });
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const error = new Error('Error While fetching');
+      error.axios = err;
+      throw error;
+    }
+
+    //generic message
+    throw new Error('Something went Wrong while sending!');
+  }
+};
+
 // export async function fetchEvents() {
 //   const response = await fetch('http://localhost:3000/events');
 
