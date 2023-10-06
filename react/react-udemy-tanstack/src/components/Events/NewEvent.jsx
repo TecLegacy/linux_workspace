@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
+import { queryClient } from '../../utils/http.js';
 import { createNewEvent } from '../../utils/http.js';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 
@@ -12,10 +13,18 @@ export default function NewEvent() {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewEvent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['events'],
+        // exact: false,
+      });
+
+      navigate('/events');
+    },
   });
 
   function handleSubmit(formData) {
-    console.log(formData);
+    // console.log(formData);
     mutate({ event: formData });
   }
 

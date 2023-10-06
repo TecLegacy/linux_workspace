@@ -1,4 +1,6 @@
 import axios, { AxiosError } from 'axios';
+import { QueryClient } from '@tanstack/react-query';
+export const queryClient = new QueryClient();
 
 // GET /events
 export const fetchEventsData = async ({ searchTerm, signal }) => {
@@ -46,6 +48,25 @@ export const createNewEvent = async ({ event }) => {
     // console.log(err);
     if (err instanceof AxiosError) {
       const error = new Error('Please check for your inputs.');
+      error.axios = err;
+      throw error;
+    }
+
+    //generic message
+    throw new Error('Something went Wrong while sending!');
+  }
+};
+
+// Get Images /events/images
+export const selectableImages = async ({ signal }) => {
+  const url = 'http://localhost:3000/events/images';
+
+  try {
+    const response = await axios.get(url, { signal });
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const error = new Error('Error While fetching');
       error.axios = err;
       throw error;
     }
