@@ -27,7 +27,6 @@ export const fetchEventsData = async ({ searchTerm, signal }) => {
 
 // POSTS /events - Create new Events
 export const createNewEvent = async ({ event }) => {
-  console.log(event);
   let url = 'http://localhost:3000/events';
   try {
     const response = await axios.post(
@@ -42,16 +41,13 @@ export const createNewEvent = async ({ event }) => {
       }
     );
     const responseBack = response.data;
-    console.log(responseBack);
     return responseBack;
   } catch (err) {
-    // console.log(err);
     if (err instanceof AxiosError) {
       const error = new Error('Please check for your inputs.');
       error.axios = err;
       throw error;
     }
-
     //generic message
     throw new Error('Something went Wrong while sending!');
   }
@@ -91,6 +87,35 @@ export const singleArticle = async ({ signal, id }) => {
     }
 
     //generic message
+    throw new Error('Something went Wrong while sending!');
+  }
+};
+
+//delete /events/:id
+export const removeArticle = async ({ id }) => {
+  const url = `http://localhost:3000/events/${id}`;
+
+  // try {
+  //   const response = await axios.delete(url);
+  //   return response.data;
+  // } catch (err) {
+  //   if (err instanceof AxiosError) {
+  //     const error = new Error('Error While fetching');
+  //     error.axios = err;
+  //     throw error;
+  //   }
+
+  //   //generic message
+  //   throw new Error('Something went Wrong while sending!');
+  // }
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      body: JSON.stringify(id),
+    });
+    const data = await response.json();
+    return data;
+  } catch (err) {
     throw new Error('Something went Wrong while sending!');
   }
 };

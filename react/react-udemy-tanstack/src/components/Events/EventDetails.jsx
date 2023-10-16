@@ -1,20 +1,31 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 import Header from '../Header.jsx';
-import { singleArticle } from '../../utils/http.js';
+import { singleArticle, removeArticle, queryClient } from '../../utils/http.js';
 
 export default function EventDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['event', { userId: id }],
-    queryFn: ({ signal }) => singleArticle({ id, signal }),
-    staleTime: 1000 * 60 * 2, // 2 minutes
-    gcTime: 1000 * 60 * 1, // 1 minutes
+    queryKey: ['event', id],
+    queryFn: () => singleArticle({ id }),
+    // staleTime: 1000 * 60 * 2, // 2 minutes
+    // gcTime: 1000 * 60 * 1, // 1 minutes
   });
+
+  // const { mutate } = useMutation({
+  //   mutationFn: removeArticle,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: ['event', id],
+  //     });
+  //     navigate('/events');
+  //   },
+  // });
 
   const formattedDate = new Date(data?.event.date).toLocaleDateString('en-US', {
     day: 'numeric',
@@ -24,6 +35,10 @@ export default function EventDetails() {
     minute: 'numeric',
     second: 'numeric',
   });
+
+  // const deleteHandler = async () => {
+  //   mutate({ id });
+  // };
 
   return (
     <>
@@ -52,6 +67,7 @@ export default function EventDetails() {
           <header>
             <h1>{data.event.title}</h1>
             <nav>
+              {/* <button onClick={deleteHandler}>Delete</button> */}
               <button>Delete</button>
               <Link to='edit'>Edit</Link>
             </nav>

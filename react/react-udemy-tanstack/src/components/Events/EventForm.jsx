@@ -10,7 +10,7 @@ export default function EventForm({ inputData, onSubmit, children }) {
 
   // Fetch selectable images from the API
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['selectableImages'],
+    queryKey: ['event', 'images'],
     queryFn: ({ signal }) => selectableImages(signal),
   });
 
@@ -26,7 +26,6 @@ export default function EventForm({ inputData, onSubmit, children }) {
 
     onSubmit({ ...data, image: selectedImage });
   }
-  console.log(data);
 
   return (
     <form id='event-form' onSubmit={handleSubmit}>
