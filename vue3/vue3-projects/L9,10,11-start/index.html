@@ -17,8 +17,6 @@
         :premium="premium"
         @add-to-cart="updateCart"
       ></product-display>
-
-      <product-details :details="details"></product-details>
     </div>
 
     <!-- Import App -->
@@ -26,8 +24,10 @@
     <!-- Product display -->
     <script src="./components/ProductDisplay.js"></script>
 
-    <!-- Product details -->
-    <script src="./components/ProductDetails.js"></script>
+    <!-- Product review -->
+    <script src="./components/ReviewForm.js"></script>
+    <!-- Product list -->
+    <script src="./components/ReviewList.js"></script>
     <!-- Mount App -->
     <script>
       const mountedApp = app.mount('#app');

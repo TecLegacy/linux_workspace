@@ -9,7 +9,7 @@ app.component('product-display', {
     /*html*/
     `
       <div class="product-display">
-    <div class="product-container">
+      <div class="product-container">
       <div class="product-image">
         <img v-bind:src="image">
       </div>
@@ -17,10 +17,10 @@ app.component('product-display', {
         <h1>{{ title }}</h1>
 
         <p v-if="inStock">In Stock</p>
+        <p v-else>Out of Stock</p>
 
         <p>Shipping is {{isShipped}}</p>
-
-        <p v-else>Out of Stock</p>
+        
         <ul>
           <li v-for="detail in details">{{ detail }}</li>
         </ul>
@@ -36,13 +36,17 @@ app.component('product-display', {
         <button class="button" :class="{ disabledButton: !inStock }" :disabled="!inStock" v-on:click="addToCart">Add to Cart</button>
       </div>
     </div>
-  </div>`,
+  </div>
+  <review-list :reviews="reviews" v-if="reviews.length"></review-list>
+  <review-form @review-submitted="showReview"></review-form>
+  `,
   data() {
     return {
       product: 'Socks',
       brand: 'Vue Mastery',
       selectedVariant: 0,
       details: ['50% cotton', '30% wool', '20% polyester'],
+      reviews: [],
       variants: [
         {
           id: 2234,
@@ -66,6 +70,10 @@ app.component('product-display', {
     updateVariant(index) {
       this.selectedVariant = index;
     },
+    showReview(review) {
+      this.reviews.push(review);
+      console.log(this.reviews);
+    },
   },
   computed: {
     title() {
@@ -79,7 +87,6 @@ app.component('product-display', {
     },
     isShipped() {
       if (this.premium === true) return 'Free';
-
       return 2.99;
     },
   },

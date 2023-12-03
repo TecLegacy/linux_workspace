@@ -3,7 +3,6 @@ const app = Vue.createApp({
     return {
       cart: [],
       premium: true,
-      details: [],
     };
   },
   methods: {
