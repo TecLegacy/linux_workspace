@@ -17,7 +17,7 @@ const User: FC<Props> = async ({}) => {
   const content = user.map(user => {
     return (
       <p className='m-2 p-2' key={user.id}>
-        <Link href={`/${user.name}`}>{user.name}</Link>
+        <Link href={`users/${user.id}`}>{user.name}</Link>
       </p>
     );
   });
