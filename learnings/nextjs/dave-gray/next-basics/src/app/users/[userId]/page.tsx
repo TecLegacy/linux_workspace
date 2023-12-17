@@ -3,6 +3,8 @@ import { FC, Suspense } from 'react';
 import UserPosts from './components/UserPosts';
 import getPosts from '@root/lib/getPosts';
 import type { Metadata } from 'next';
+import getALlUsers from '@root/lib/getAllUsers';
+import { notFound } from 'next/navigation';
 
 interface Props {
   params: {
@@ -17,6 +19,14 @@ export async function generateMetadata({
   //* Dedupe request are cached
   const userData: Promise<User> = getUser(userId);
   const user = await userData;
+
+  //* Not found user
+  if (!user?.name) {
+    return {
+      title: 'Not Found',
+    };
+  }
+
   return {
     title: user.name,
     description: `These Post belong to ${user.username} `,
@@ -32,6 +42,11 @@ const User: FC<Props> = async ({ params: { userId } }) => {
 
   const user = await userData;
 
+  //* Not found user
+  if (!user?.name) {
+    return notFound();
+  }
+
   return (
     <>
       <h2 className=' text-amber-600'>{user.name}</h2>
@@ -45,5 +60,12 @@ const User: FC<Props> = async ({ params: { userId } }) => {
     </>
   );
 };
+
+export async function generateStaticParams() {
+  const usersData: Promise<User[]> = getALlUsers();
+  const users = await usersData;
+
+  return users.map(user => ({ userId: user.id.toString() }));
+}
 
 export default User;
