@@ -7,25 +7,7 @@ interface Props {
   };
 }
 
-export async function generateMetaData({ params: { searchTerm } }: Props) {
-  const wikiResult: Promise<SearchResult> = getWikiResult(searchTerm);
-  const data = await wikiResult;
-
-  const displayTerm = searchTerm.replaceAll('%20', ' ');
-
-  if (!data.query?.pages) {
-    return {
-      title: `Not Found for Serach ${displayTerm}`,
-    };
-  }
-
-  return {
-    title: displayTerm,
-    description: `Search Result for ${displayTerm}`,
-  };
-}
-
-const SearchResult = async ({ params: { searchTerm } }: Props) => {
+export default async function Page({ params: { searchTerm } }: Props) {
   const wikiResult: Promise<SearchResult> = getWikiResult(searchTerm);
   const data = await wikiResult;
   const results: Result[] | undefined = data?.query?.pages;
@@ -43,6 +25,28 @@ const SearchResult = async ({ params: { searchTerm } }: Props) => {
   );
 
   return content;
-};
+}
 
-export default SearchResult;
+export async function generateMetadata({
+  params: { searchTerm },
+}: {
+  params: {
+    searchTerm: string;
+  };
+}) {
+  const wikiResult: Promise<SearchResult> = getWikiResult(searchTerm);
+  const data = await wikiResult;
+
+  const displayTerm = searchTerm.replaceAll('%20', ' ');
+
+  if (!data.query?.pages) {
+    return {
+      title: `Not Found for search ${displayTerm}`,
+    };
+  }
+
+  return {
+    title: displayTerm,
+    description: `Search Result for ${displayTerm}`,
+  };
+}
