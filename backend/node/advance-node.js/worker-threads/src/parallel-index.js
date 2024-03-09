@@ -1,8 +1,8 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 require('dotenv').config();
 const { Worker } = require('worker_threads');
-// const createWorker = require('./lib/createWorker');
 
 const THREAD_COUNTS = 4;
 
@@ -13,7 +13,8 @@ app.get('/non-blocking-parallel', (req, res) => {
 });
 
 function createWorker(threadCount) {
-  const worker = new Worker('./parallel-worker.js', {
+  const absolutePath = path.resolve(__dirname, 'parallel-worker.js');
+  const worker = new Worker(absolutePath, {
     workerData: {
       threadCount,
     },
