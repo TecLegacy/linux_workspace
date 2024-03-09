@@ -1,10 +1,12 @@
 const express = require('express');
-const path = require('path');
+const THREAD_COUNTS = 4;
+// const path = require('path');
 const app = express();
 require('dotenv').config();
-const { Worker } = require('worker_threads');
+const createWorker = require('./lib/createWorker');
+// const { Worker } = require('worker_threads');
 
-const THREAD_COUNTS = 4;
+createWorker;
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,24 +14,24 @@ app.get('/non-blocking-parallel', (req, res) => {
   res.status(200).send('Non-blocking route in parallel🐕');
 });
 
-function createWorker(threadCount) {
-  const absolutePath = path.resolve(__dirname, 'parallel-worker.js');
-  const worker = new Worker(absolutePath, {
-    workerData: {
-      threadCount,
-    },
-  });
+// function createWorker(threadCount) {
+//   const absolutePath = path.resolve(__dirname, 'parallel-worker.js');
+//   const worker = new Worker(absolutePath, {
+//     workerData: {
+//       threadCount,
+//     },
+//   });
 
-  return new Promise((resolve, rejects) => {
-    worker.on('message', data => {
-      console.log('running worker thread');
-      resolve(data);
-    });
-    worker.on('error', err => {
-      rejects(err);
-    });
-  });
-}
+//   return new Promise((resolve, rejects) => {
+//     worker.on('message', data => {
+//       console.log('running worker thread');
+//       resolve(data);
+//     });
+//     worker.on('error', err => {
+//       rejects(err);
+//     });
+//   });
+// }
 
 // This code take 3 seconds to execute
 // Delegating Worker thread in parallel
