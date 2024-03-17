@@ -1,4 +1,5 @@
 import express, { type Request, type Response } from 'express';
+import a from './import-export';
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.all('*', (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
+  console.log(a);
   console.log(`Port Listening! ${port}`);
 });
