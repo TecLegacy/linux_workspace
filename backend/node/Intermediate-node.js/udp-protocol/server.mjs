@@ -2,7 +2,7 @@ import dgram from 'dgram';
 const port = process.argv[2];
 const address = process.argv[3];
 
-console.log(port, address);
+let clientData = [];
 
 //Create a Datagram Socket server
 const server = dgram.createSocket('udp4'); // udp4 = ipv4
@@ -14,6 +14,10 @@ server.on('error', err => {
 
 server.on('message', (msg, rinfo) => {
   console.log(`Server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
+  clientData.push({
+    port: rinfo.port,
+    address: rinfo.address,
+  });
 });
 
 server.on('listening', () => {
@@ -23,17 +27,24 @@ server.on('listening', () => {
 
 server.bind(port, address);
 
+// Send Data to client
 process.stdin.on('data', data => {
   if (data.toString().trim() === 'exit') {
     console.log('Closing Node.js');
     return process.exit();
   }
 
-  // Send Data to client
-  server.send(data, 5000, 'localhost', err => {
-    if (err) {
-      console.log(err);
-      throw err;
-    }
-  });
+  if (clientData.length != 0) {
+    clientData.forEach(client => {
+      server.send(data, client.port, client.address, err => {
+        if (err) {
+          console.log(err);
+          throw err;
+        }
+
+        //Flush Data after sending
+        clientData.length = 0;
+      });
+    });
+  }
 });
